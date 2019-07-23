@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from pkg_resources import get_distribution, DistributionNotFound
 import sqlite3
-from .utils import *
+from .utils import create_db, populate_models
 from pathlib import Path
 
 try:
@@ -13,12 +13,14 @@ except DistributionNotFound:
 finally:
     del get_distribution, DistributionNotFound
 
+def init_db():
+    dbfile = Path('./products.db')
+    if dbfile.is_file():
+        pass
+    else:
+        # create products table
+        create_db([Product])
+        # initialise products table
+        populate_models(data_source)
 
-dbfile = Path('./products.db')
-if dbfile.is_file():
-    pass
-else:
-    # create products table
-    create_db([Product])
-    # initialise products table
-    populate_models(data_source)
+init_db()

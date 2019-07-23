@@ -13,9 +13,6 @@ def prods_str_to_dict(str_products):
 
 database = SqliteDatabase('./products.db')
 
-class UnknownField(object):
-    def __init__(self, *_, **__): pass
-
 class BaseModel(Model):
     class Meta:
         database = database

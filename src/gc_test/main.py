@@ -19,7 +19,7 @@ def calculate(str_products):
 
     Args:
       str_products (string): string
-    
+
     Returns:
       float: total price
     """
@@ -32,15 +32,15 @@ def calculate(str_products):
     _logger.debug("Filtering result is: " + results)
     total_price = 0
     for product in results:
-      result_sku_list.append(product.sku)
-      trigger = product.trigger
-      if trigger != 0:
-        fdiv = (dict_products[product.sku])//(product.trigger)
-        mod = (dict_products[product.sku])%(product.trigger)
-        total_price+=fdiv*(product.tprice)+(mod*product.price)
-      else:
-        total_price+= (dict_products[product.sku])*(product.price)
-    diff_skus = list(set(query_sku_list) - set(result_sku_list)) 
+        result_sku_list.append(product.sku)
+        trigger = product.trigger
+        if trigger != 0:
+            fdiv = (dict_products[product.sku])//(product.trigger)
+            mod = (dict_products[product.sku])%(product.trigger)
+            total_price += fdiv*(product.tprice) + (mod*product.price)
+        else:
+            total_price += (dict_products[product.sku])*(product.price)
+    diff_skus = list(set(query_sku_list) - set(result_sku_list))
     _logger.info("Total price calcuation finished.")
     return total_price, diff_skus
 
@@ -107,7 +107,7 @@ def main(args):
     result, diff = calculate(args.n)
     print("The product {} total price is {}".format(args.n, result))
     if diff != []:
-    	print("The skus {} are not in system and not counted in.".format(diff))
+        print("The skus {} are not in system and not counted in.".format(diff))
     _logger.info("Script ends here")
 
 
