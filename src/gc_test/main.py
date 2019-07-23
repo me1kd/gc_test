@@ -24,10 +24,15 @@ def calculate(str_products):
       float: total price
     """
     assert str_products is not None
+    _logger.info("Total price calculation started.")
     dict_products = prods_str_to_dict(str_products)
-    results = get_models(list(dict_products.keys()))
+    query_sku_list = list(dict_products.keys())
+    results = get_models(query_sku_list)
+    result_sku_list = []
+    _logger.debug("Filtering result is: " + results)
     total_price = 0
     for product in results:
+      result_sku_list.append(product.sku)
       trigger = product.trigger
       if trigger != 0:
         fdiv = (dict_products[product.sku])//(product.trigger)
@@ -35,7 +40,9 @@ def calculate(str_products):
         total_price+=fdiv*(product.tprice)+(mod*product.price)
       else:
         total_price+= (dict_products[product.sku])*(product.price)
-    return total_price
+    diff_skus = list(set(query_sku_list) - set(result_sku_list)) 
+    _logger.info("Total price calcuation finished.")
+    return total_price, diff_skus
 
 
 
@@ -97,7 +104,10 @@ def main(args):
     args = parse_args(args)
     setup_logging(args.loglevel)
     _logger.debug("Starting crazy calculations...")
-    print("The product {} total price is {}".format(args.n, calculate(args.n)))
+    result, diff = calculate(args.n)
+    print("The product {} total price is {}".format(args.n, result))
+    if diff != []:
+    	print("The skus {} are not in system and not counted in.".format(diff))
     _logger.info("Script ends here")
 
 
