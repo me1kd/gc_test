@@ -37,6 +37,12 @@ optional arguments:
   -v, --verbose          set loglevel to INFO
   -vv, --very-verbose    set loglevel to DEBUG
 
+Example
+^^^^^^^
+>gccalc ABCDE453
+The product ABCDE453 total price is 115.0
+The skus ['3', 'E', '4', '5'] are not in system and not counted in.
+
 Test
 ^^^^
 Test can be carried out type in:
