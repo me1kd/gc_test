@@ -2,8 +2,8 @@
 import argparse
 import sys
 import logging
-from .utils import prods_str_to_dict
-from .utils import get_models
+from gc_test.utils import prods_str_to_dict
+from gc_test.utils import get_models
 
 from gc_test import __version__
 

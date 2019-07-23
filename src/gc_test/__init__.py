@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from pkg_resources import get_distribution, DistributionNotFound
 import sqlite3
-from .utils import create_db, populate_models
+from gc_test.utils import create_db, populate_models, Product
 from pathlib import Path
 
 try:
