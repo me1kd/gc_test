@@ -1,23 +1,9 @@
 # -*- coding: utf-8 -*-
-"""
-This is a skeleton file that can serve as a starting point for a Python
-console script. To run this script uncomment the following lines in the
-[options.entry_points] section in setup.cfg:
-
-    console_scripts =
-         fibonacci = gc_test.skeleton:run
-
-Then run `python setup.py install` which will install the command `fibonacci`
-inside your current environment.
-Besides console scripts, the header (i.e. until _logger...) of this file can
-also be used as template for Python modules.
-
-Note: This skeleton file can be safely removed if not needed!
-"""
-
 import argparse
 import sys
 import logging
+from .utils import prods_str_to_dict
+from .utils import get_models
 
 from gc_test import __version__
 
@@ -28,20 +14,32 @@ __license__ = "mit"
 _logger = logging.getLogger(__name__)
 
 
-def fib(n):
-    """Fibonacci example function
+def calculate(str_products):
+    """Calculate the total price based on the products list in str
 
     Args:
-      n (int): integer
-
+      str_products (string): string
+    
     Returns:
-      int: n-th Fibonacci number
+      float: total price
     """
-    assert n > 0
-    a, b = 1, 1
-    for i in range(n-1):
-        a, b = b, a+b
-    return a
+    assert str_products is not None
+    dict_products = prods_str_to_dict(str_products)
+    results = get_models(list(dict_products.keys()))
+    total_price = 0
+    for product in results:
+      trigger = product.trigger
+      if trigger != 0:
+        fdiv = (dict_products[product.sku])//(product.trigger)
+        mod = (dict_products[product.sku])%(product.trigger)
+        total_price+=fdiv*(product.tprice)+(mod*product.price)
+        #pass
+      else:
+        total_price+= (dict_products[product.sku])*(product.price)
+        #pass
+    return total_price
+
+
 
 
 def parse_args(args):
@@ -54,16 +52,16 @@ def parse_args(args):
       :obj:`argparse.Namespace`: command line parameters namespace
     """
     parser = argparse.ArgumentParser(
-        description="Just a Fibonacci demonstration")
+        description="Just a total price calculator")
     parser.add_argument(
         "--version",
         action="version",
         version="gc_test {ver}".format(ver=__version__))
     parser.add_argument(
         dest="n",
-        help="n-th Fibonacci number",
-        type=int,
-        metavar="INT")
+        help="String formed by SKU chars",
+        type=str,
+        metavar="STRING")
     parser.add_argument(
         "-v",
         "--verbose",
@@ -101,7 +99,7 @@ def main(args):
     args = parse_args(args)
     setup_logging(args.loglevel)
     _logger.debug("Starting crazy calculations...")
-    print("The {}-th Fibonacci number is {}".format(args.n, fib(args.n)))
+    print("The product {} total price is {}".format(args.n, calculate(args.n)))
     _logger.info("Script ends here")
 
 
