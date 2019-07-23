@@ -39,9 +39,9 @@ optional arguments:
 
 Example
 ^^^^^^^
->gccalc ABCDE453
-The product ABCDE453 total price is 115.0
-The skus ['3', 'E', '4', '5'] are not in system and not counted in.
+| >gccalc ABCDE453
+| The product ABCDE453 total price is 115.0
+| The skus ['3', 'E', '4', '5'] are not in system and not counted in.
 
 Test
 ^^^^
