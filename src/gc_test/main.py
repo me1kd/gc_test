@@ -33,10 +33,8 @@ def calculate(str_products):
         fdiv = (dict_products[product.sku])//(product.trigger)
         mod = (dict_products[product.sku])%(product.trigger)
         total_price+=fdiv*(product.tprice)+(mod*product.price)
-        #pass
       else:
         total_price+= (dict_products[product.sku])*(product.price)
-        #pass
     return total_price
 
 
